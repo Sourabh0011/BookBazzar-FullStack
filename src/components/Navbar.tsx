@@ -14,10 +14,18 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     setMobileOpen(false);
-    navigate("/"); // Redirect to home after logout
+    navigate("/");
   };
 
-  // Close mobile menu on route change
+  const handleProtectedClick = (path: string) => {
+    if (!user) {
+      navigate("/auth");
+    } else {
+      navigate(path);
+    }
+    setMobileOpen(false);
+  };
+
   useEffect(() => {
     setMobileOpen(false);
   }, [location]);
@@ -25,9 +33,9 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navLinks = [
-    { name: "Buy Books", path: "/marketplace", icon: <ShoppingBag className="h-4 w-4" /> },
-    { name: "Sell Books", path: "/add-listing", icon: <Plus className="h-4 w-4" /> },
-    { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> },
+    { name: "Buy Books", path: "/marketplace", icon: <ShoppingBag className="h-4 w-4" />, protected: false },
+    { name: "Sell Books", path: "/add-listing", icon: <Plus className="h-4 w-4" />, protected: true },
+    { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard className="h-4 w-4" />, protected: true },
   ];
 
   return (
@@ -46,9 +54,9 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => (
-            <Link
+            <button
               key={link.path}
-              to={link.path}
+              onClick={() => link.protected ? handleProtectedClick(link.path) : navigate(link.path)}
               className={`relative px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-primary ${
                 isActive(link.path) ? "text-primary" : "text-muted-foreground"
               }`}
@@ -61,7 +69,7 @@ const Navbar = () => {
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
-            </Link>
+            </button>
           ))}
         </div>
 
@@ -70,16 +78,21 @@ const Navbar = () => {
           <div className="hidden items-center gap-2 md:flex">
             {user ? (
               <>
-                <Link to="/add-listing">
-                  <Button size="sm" className="rounded-full bg-primary px-5 font-semibold hover:shadow-md transition-all">
-                    <Plus className="mr-1.5 h-4 w-4" /> List a Book
-                  </Button>
-                </Link>
-                <Link to="/dashboard">
-                  <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent transition-colors">
-                    <User className="h-5 w-5 text-foreground" />
-                  </Button>
-                </Link>
+                <Button 
+                  size="sm" 
+                  className="rounded-full bg-primary px-5 font-semibold hover:shadow-md transition-all"
+                  onClick={() => navigate("/add-listing")}
+                >
+                  <Plus className="mr-1.5 h-4 w-4" /> List a Book
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="rounded-full hover:bg-accent transition-colors"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  <User className="h-5 w-5 text-foreground" />
+                </Button>
                 <Button 
                   variant="ghost" 
                   size="icon" 
@@ -90,9 +103,12 @@ const Navbar = () => {
                 </Button>
               </>
             ) : (
-              <Link to="/auth">
-                <Button className="rounded-full px-6 font-semibold">Sign In</Button>
-              </Link>
+              <Button 
+                className="rounded-full px-6 font-semibold"
+                onClick={() => navigate("/auth")}
+              >
+                Sign In
+              </Button>
             )}
           </div>
 
@@ -125,15 +141,14 @@ const Navbar = () => {
                   transition={{ delay: i * 0.1 }}
                   key={link.path}
                 >
-                  <Link to={link.path}>
-                    <Button
-                      variant={isActive(link.path) ? "secondary" : "ghost"}
-                      className="w-full justify-start gap-3 rounded-xl py-6 text-base font-medium"
-                    >
-                      {link.icon}
-                      {link.name}
-                    </Button>
-                  </Link>
+                  <Button
+                    variant={isActive(link.path) ? "secondary" : "ghost"}
+                    className="w-full justify-start gap-3 rounded-xl py-6 text-base font-medium"
+                    onClick={() => link.protected ? handleProtectedClick(link.path) : navigate(link.path)}
+                  >
+                    {link.icon}
+                    {link.name}
+                  </Button>
                 </motion.div>
               ))}
               
@@ -146,11 +161,13 @@ const Navbar = () => {
               >
                 {user ? (
                   <div className="grid grid-cols-2 gap-3 pt-2">
-                    <Link to="/dashboard" className="w-full">
-                      <Button variant="outline" className="w-full rounded-xl py-6">
-                        <User className="mr-2 h-4 w-4" /> Profile
-                      </Button>
-                    </Link>
+                    <Button 
+                      variant="outline" 
+                      className="w-full rounded-xl py-6"
+                      onClick={() => navigate("/dashboard")}
+                    >
+                      <User className="mr-2 h-4 w-4" /> Profile
+                    </Button>
                     <Button
                       variant="ghost"
                       className="w-full rounded-xl py-6 text-destructive hover:bg-destructive/10"
@@ -160,9 +177,12 @@ const Navbar = () => {
                     </Button>
                   </div>
                 ) : (
-                  <Link to="/auth" className="w-full">
-                    <Button className="w-full rounded-xl py-6 text-lg font-bold">Sign In</Button>
-                  </Link>
+                  <Button 
+                    className="w-full rounded-xl py-6 text-lg font-bold"
+                    onClick={() => navigate("/auth")}
+                  >
+                    Sign In
+                  </Button>
                 )}
               </motion.div>
             </div>
