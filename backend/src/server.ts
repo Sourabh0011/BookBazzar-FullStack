@@ -42,6 +42,12 @@ app.get("/", (req, res) => {
   res.send("Book Swap Backend is running! 🚀");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Conditionally listen only if not in production environment (like Vercel)
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+// Export the app for Vercel
+export default app;
