@@ -64,7 +64,7 @@ const AddListing = () => {
       }
 
       const token = localStorage.getItem("token");
-      const res = await fetch("http://127.0.0.1:5000/api/books", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/books`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -32,7 +32,7 @@ const Marketplace = () => {
 
   const fetchBooks = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/books");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/books`);
       const data = await res.json();
       if (res.ok) {
         setBooks(data);

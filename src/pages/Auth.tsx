@@ -29,7 +29,7 @@ const Auth = () => {
         ? { username: username.trim(), email: email.trim(), password: password.trim() }
         : { email: email.trim(), password: password.trim() };
 
-      const res = await fetch(`http://127.0.0.1:5000/api/auth/${endpoint}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

@@ -33,9 +33,9 @@ const Dashboard = () => {
     const token = localStorage.getItem("token");
     try {
       const [booksRes, txRes, notifRes] = await Promise.all([
-        fetch("http://127.0.0.1:5000/api/books/my", { headers: { Authorization: `Bearer ${token}` } }),
-        fetch("http://127.0.0.1:5000/api/transactions", { headers: { Authorization: `Bearer ${token}` } }),
-        fetch("http://127.0.0.1:5000/api/notifications", { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`${import.meta.env.VITE_API_URL}/books/my`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`${import.meta.env.VITE_API_URL}/transactions`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`${import.meta.env.VITE_API_URL}/notifications`, { headers: { Authorization: `Bearer ${token}` } }),
       ]);
 
       if (booksRes.ok) setMyBooks(await booksRes.json());
@@ -50,7 +50,7 @@ const Dashboard = () => {
 
   const deleteBook = async (bookId: string) => {
     const token = localStorage.getItem("token");
-    const res = await fetch(`http://127.0.0.1:5000/api/books/${bookId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/books/${bookId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -62,7 +62,7 @@ const Dashboard = () => {
 
   const updateOrderStatus = async (txId: string, status: string) => {
     const token = localStorage.getItem("token");
-    const res = await fetch(`http://127.0.0.1:5000/api/transactions/${txId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/transactions/${txId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ status }),
@@ -75,7 +75,7 @@ const Dashboard = () => {
 
   const markNotifRead = async (id: string) => {
     const token = localStorage.getItem("token");
-    await fetch(`http://127.0.0.1:5000/api/notifications/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/notifications/${id}`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` },
     });
