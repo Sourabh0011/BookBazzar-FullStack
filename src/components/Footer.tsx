@@ -61,7 +61,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} BookBazzar. Developed by Sourabh Sharma.
+            © {new Date().getFullYear()} BookBazzar. Developed by Sourabh Sharma - Limitless.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors"><Twitter size={20} /></a>
