@@ -1,7 +1,7 @@
-import { Response } from "express";
-import Transaction from "../models/Transaction";
-import Notification from "../models/Notification";
-import Book from "../models/Book";
+import type { Response } from "express";
+import Transaction from "../models/Transaction.js";
+import Notification from "../models/Notification.js";
+import Book from "../models/Book.js";
 
 // @desc    Create a new transaction
 // @route   POST /api/transactions
@@ -23,15 +23,15 @@ export const createTransaction = async (req: any, res: Response) => {
       state,
       pincode,
       phone,
-    });
+    } as any);
 
     // Create Notification for Seller
     await Notification.create({
       user: sellerId,
       title: "New Order Received! 🎉",
       message: `Someone wants to buy "${book.title}" for ₹${book.price}. Payment: ${paymentMethod === "cash" ? "Cash on Delivery" : "Online Payment"}.`,
-      related_transaction: transaction._id,
-    });
+      related_transaction: (transaction._id as any),
+    } as any);
 
     res.status(201).json(transaction);
   } catch (error: any) {

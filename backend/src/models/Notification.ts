@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface INotification extends Document {
-  user: mongoose.Schema.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
   title: string;
   message: string;
   is_read: boolean;
-  related_transaction?: mongoose.Schema.Types.ObjectId;
+  related_transaction?: mongoose.Types.ObjectId;
   created_at: Date;
 }
 

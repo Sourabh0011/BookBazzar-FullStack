@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import Book from "../models/Book";
+import type { Request, Response } from "express";
+import Book from "../models/Book.js";
 
 // @desc    Create a new book listing
 // @route   POST /api/books
@@ -23,7 +23,7 @@ export const createBook = async (req: any, res: Response) => {
       category,
       description,
       image_url,
-    });
+    } as any);
 
     res.status(201).json(book);
   } catch (error: any) {

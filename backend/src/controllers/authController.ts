@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/User";
+import User from "../models/User.js";
 
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "yoursecret", {
@@ -31,7 +31,7 @@ export const signup = async (req: Request, res: Response) => {
         _id: user._id,
         username: user.username,
         email: user.email,
-        token: generateToken(user._id as string),
+        token: generateToken((user._id as any).toString()),
       });
     } else {
       res.status(400).json({ message: "Invalid user data" });
@@ -55,7 +55,7 @@ export const login = async (req: Request, res: Response) => {
         _id: user._id,
         username: user.username,
         email: user.email,
-        token: generateToken(user._id as string),
+        token: generateToken((user._id as any).toString()),
       });
     } else {
       res.status(401).json({ message: "Invalid email or password" });

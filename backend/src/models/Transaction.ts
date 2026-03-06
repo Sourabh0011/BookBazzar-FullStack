@@ -1,9 +1,9 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface ITransaction extends Document {
-  book: mongoose.Schema.Types.ObjectId;
-  buyer: mongoose.Schema.Types.ObjectId;
-  seller: mongoose.Schema.Types.ObjectId;
+  book: mongoose.Types.ObjectId;
+  buyer: mongoose.Types.ObjectId;
+  seller: mongoose.Types.ObjectId;
   type: "purchase" | "swap";
   status: "pending" | "confirmed" | "cancelled" | "completed";
   payment_method: "cash" | "online";

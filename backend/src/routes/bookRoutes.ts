@@ -1,8 +1,8 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
-import { createBook, getBooks, getMyBooks, deleteBook } from "../controllers/bookController";
-import { protect } from "../middleware/authMiddleware";
+import { createBook, getBooks, getMyBooks, deleteBook } from "../controllers/bookController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
