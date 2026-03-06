@@ -7,10 +7,10 @@ export const createBook = async (req: any, res: Response) => {
   const { title, author, price, is_swap, condition, category, description } = req.body;
 
   try {
-    // If a file was uploaded, store its URL
+    // If a file was uploaded, store its URL (Cloudinary provides this in req.file.path)
     let image_url = "";
     if (req.file) {
-      image_url = `http://127.0.0.1:5000/uploads/${req.file.filename}`;
+      image_url = req.file.path;
     }
 
     const book = await Book.create({
